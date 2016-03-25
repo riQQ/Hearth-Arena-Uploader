@@ -14,8 +14,6 @@ namespace HearthArenaUploader
 {
 	public class HearthArenaUploaderPlugin : Hearthstone_Deck_Tracker.Plugins.IPlugin
 	{
-		public static readonly string LogCategory = "HearthArenaUploader";
-
 		public void OnLoad()
 		{
 			PluginSettings.Load();

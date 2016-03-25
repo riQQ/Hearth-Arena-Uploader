@@ -1,8 +1,8 @@
 ﻿using HearthArenaUploader.Data;
-using Hearthstone_Deck_Tracker;
 using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Stats;
+using Hearthstone_Deck_Tracker.Utility.Logging;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,7 @@ namespace HearthArenaUploader
 			CookieContainer cookieContainer = result.ResultData;
 			if (result.Outcome == UploadResults.Success && cookieContainer != null)
 			{
-				Logger.WriteLine(string.Format("Uploading {0} run(s)", runs.Count()), HearthArenaUploaderPlugin.LogCategory);
+				Log.WriteLine(string.Format("Uploading {0} run(s)", runs.Count()), LogType.Info);
 				int i = 1;
 				int max = runs.Count();
 				foreach (Deck run in runs)
@@ -52,7 +52,7 @@ namespace HearthArenaUploader
 					if (setProgress != null)
 						setProgress((double)i++ / max);
 				}
-				Logger.WriteLine("Upload successful", HearthArenaUploaderPlugin.LogCategory);
+				Log.WriteLine("Upload successful", LogType.Info);
 				return new Result<UploadResults>(UploadResults.Success, string.Empty);
 			}
 
@@ -81,7 +81,7 @@ namespace HearthArenaUploader
 			catch (Exception e)
 			{
 				string connectionErrorExtended = connectionError + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace;
-				Logger.WriteLine(connectionErrorExtended, HearthArenaUploaderPlugin.LogCategory);
+				Log.WriteLine(connectionErrorExtended, LogType.Info);
 				return new Result<CookieContainer, UploadResults>(null, UploadResults.ConnectionError, connectionErrorExtended);
 			}
 
@@ -123,7 +123,7 @@ namespace HearthArenaUploader
 			catch (Exception e)
 			{
 				string connectionErrorExtended = connectionError + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace;
-				Logger.WriteLine(connectionErrorExtended, HearthArenaUploaderPlugin.LogCategory);
+				Log.WriteLine(connectionErrorExtended, LogType.Info);
 				return new Result<CookieContainer, UploadResults>(null, UploadResults.ConnectionError, connectionErrorExtended);
 			}
 
@@ -138,17 +138,17 @@ namespace HearthArenaUploader
 			{
 				if (webResponseLogin.ResponseUri.AbsoluteUri == uriLogin.ToString())
 				{
-					Logger.WriteLine("Login to Hearth Arena failed: wrong credentials", HearthArenaUploaderPlugin.LogCategory);
+					Log.WriteLine("Login to Hearth Arena failed: wrong credentials", LogType.Info);
 					return new Result<CookieContainer, UploadResults>(null, UploadResults.LoginFailedCredentialsWrong, "wrong credentials");
 				}
 				else
 				{
-					Logger.WriteLine("Login to Hearth Arena failed: unknown error (Response url: " + webResponseLogin.ResponseUri.AbsoluteUri + ")", HearthArenaUploaderPlugin.LogCategory);
+					Log.WriteLine("Login to Hearth Arena failed: unknown error (Response url: " + webResponseLogin.ResponseUri.AbsoluteUri + ")", LogType.Info);
 					return new Result<CookieContainer, UploadResults>(null, UploadResults.LoginFailedUnknownError, "unknown error (Response url: " + webResponseLogin.ResponseUri.AbsoluteUri + ").");
 				}
 			}
 
-			Logger.WriteLine("Login to Hearth Arena successful", HearthArenaUploaderPlugin.LogCategory);
+			Log.WriteLine("Login to Hearth Arena successful", LogType.Info);
 			return new Result<CookieContainer, UploadResults>(cookieContainer, UploadResults.Success, string.Empty);
 		}
 
@@ -168,7 +168,7 @@ namespace HearthArenaUploader
 			catch (Exception e)
 			{
 				string connectionErrorExtended = connectionError + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace;
-				Logger.WriteLine(connectionErrorExtended, HearthArenaUploaderPlugin.LogCategory);
+				Log.WriteLine(connectionErrorExtended, LogType.Info);
 				return new Result<UploadResults>(UploadResults.ConnectionError, connectionErrorExtended);
 			}
 
@@ -208,7 +208,7 @@ namespace HearthArenaUploader
 			catch (Exception e)
 			{
 				string connectionErrorExtended = connectionError + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace;
-				Logger.WriteLine(connectionErrorExtended, HearthArenaUploaderPlugin.LogCategory);
+				Log.WriteLine(connectionErrorExtended, LogType.Info);
 				return new Result<UploadResults>(UploadResults.ConnectionError, connectionErrorExtended);
 			}
 
@@ -220,8 +220,8 @@ namespace HearthArenaUploader
 			bool success = webResponsePostAddArena.ResponseUri.AbsoluteUri == @"https://www.heartharena.com/my-arenas";
 			if (!success)
 			{
-				Logger.WriteLine("Submitting arena run failed"
-					+ Environment.NewLine + webResponsePostAddArena.StatusCode + " (" + webResponsePostAddArena.ResponseUri + ")", HearthArenaUploaderPlugin.LogCategory);
+				Log.WriteLine("Submitting arena run failed"
+					+ Environment.NewLine + webResponsePostAddArena.StatusCode + " (" + webResponsePostAddArena.ResponseUri + ")", LogType.Info);
 			}
 
 			PluginSettings.Instance.UploadedDecks.Add(run.DeckId);
