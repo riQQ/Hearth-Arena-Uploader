@@ -12,6 +12,7 @@ namespace HearthArenaUploader.Data
 		LoginFailedCredentialsWrong,		
 		LoginFailedUnknownError,
 		SubmittingArenaRunFailedUnknownError,
-		ConnectionError
+		ConnectionError,
+		HtmlParsingError
 	}
 }

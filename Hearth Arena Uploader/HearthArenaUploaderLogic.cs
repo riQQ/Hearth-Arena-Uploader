@@ -19,9 +19,11 @@ namespace HearthArenaUploader
 {
 	public class HearthArenaUploaderLogic
 	{
+		const string prefix = "arena_run";
 		readonly string rememberMe = "on";
 		readonly string submit = "Login";
 		readonly string connectionError = "connection error. Try again, whene heartharena.com is available.";
+
 		string username;
 		SecureString password;
 
@@ -181,9 +183,12 @@ namespace HearthArenaUploader
 			// get token from html
 			HtmlDocument doc = new HtmlDocument();
 			doc.LoadHtml(content);
-			HtmlNode node = doc.DocumentNode.SelectSingleNode(@"//input[@name='heartharena_arenabundle_arenarun[_token]']");
-			string token = node.Attributes["value"].Value;
-
+			HtmlNode node = doc.DocumentNode.SelectSingleNode($@"//input[@name='{prefix}[_token]']");
+			string token = node?.GetAttributeValue("value", null);
+			if (token == null)
+			{
+				return new Result<UploadResults>(UploadResults.HtmlParsingError, "Couldn't parse submit arena run csrf token.");
+			}
 			// post add arena request            
 			string postReq = ConvertArenaRunToRequest(run, token);
 
@@ -241,7 +246,6 @@ namespace HearthArenaUploader
 
 		private string ConvertArenaRunToRequest(Deck arenaRun, string token)
 		{
-			const string prefix = "heartharena_arenabundle_arenarun";
 			GameStats firstGame = arenaRun.DeckStats.Games.FirstOrDefault();
 			string date = firstGame != null ? firstGame.StartTime.ToString("MM/dd/yyyy", CultureInfo.GetCultureInfo("en-US")) : DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.GetCultureInfo("en-US"));
 			HearthArenaClass deckClass;
