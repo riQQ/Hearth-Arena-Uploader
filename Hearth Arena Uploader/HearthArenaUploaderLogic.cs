@@ -82,7 +82,7 @@ namespace HearthArenaUploader
 			}
 			catch (Exception e)
 			{
-				string connectionErrorExtended = connectionError + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace;
+				string connectionErrorExtended = connectionError + Environment.NewLine + e;
 				Log.WriteLine(connectionErrorExtended, LogType.Info);
 				return new Result<CookieContainer, UploadResults>(null, UploadResults.ConnectionError, connectionErrorExtended);
 			}
@@ -124,7 +124,7 @@ namespace HearthArenaUploader
 			}
 			catch (Exception e)
 			{
-				string connectionErrorExtended = connectionError + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace;
+				string connectionErrorExtended = connectionError + Environment.NewLine + e;
 				Log.WriteLine(connectionErrorExtended, LogType.Info);
 				return new Result<CookieContainer, UploadResults>(null, UploadResults.ConnectionError, connectionErrorExtended);
 			}
@@ -169,7 +169,7 @@ namespace HearthArenaUploader
 			}
 			catch (Exception e)
 			{
-				string connectionErrorExtended = connectionError + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace;
+				string connectionErrorExtended = connectionError + Environment.NewLine + e;
 				Log.WriteLine(connectionErrorExtended, LogType.Info);
 				return new Result<UploadResults>(UploadResults.ConnectionError, connectionErrorExtended);
 			}
@@ -212,7 +212,7 @@ namespace HearthArenaUploader
 			}
 			catch (Exception e)
 			{
-				string connectionErrorExtended = connectionError + Environment.NewLine + e.Message + Environment.NewLine + e.StackTrace;
+				string connectionErrorExtended = connectionError + Environment.NewLine + e;
 				Log.WriteLine(connectionErrorExtended, LogType.Info);
 				return new Result<UploadResults>(UploadResults.ConnectionError, connectionErrorExtended);
 			}
