@@ -225,8 +225,10 @@ namespace HearthArenaUploader
 			bool success = webResponsePostAddArena.ResponseUri.AbsoluteUri == @"https://www.heartharena.com/my-arenas";
 			if (!success)
 			{
-				Log.WriteLine("Submitting arena run failed"
+				string message = "Submitting arena run failed, POST parameters might be incorrect";
+				Log.WriteLine(message
 					+ Environment.NewLine + webResponsePostAddArena.StatusCode + " (" + webResponsePostAddArena.ResponseUri + ")", LogType.Info);
+				return new Result<UploadResults>(UploadResults.SubmittingArenaRunFailedUnknownError, message);
 			}
 
 			PluginSettings.Instance.UploadedDecks.Add(run.DeckId);
