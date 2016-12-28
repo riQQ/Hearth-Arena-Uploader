@@ -281,7 +281,7 @@ namespace HearthArenaUploader
 				match_prefix_indexed = match_prefix + AddSquareBrackets(matchNr.ToString());
 				HearthArenaClass hearthArenaClass;
 				bool success = Enum.TryParse<HearthArenaClass>(match.OpponentHero, out hearthArenaClass);
-				bodyArgs[match_prefix_indexed + AddSquareBrackets("opponent")] = ((int)hearthArenaClass).ToString();
+				bodyArgs[match_prefix_indexed + AddSquareBrackets("opponentClassification")] = ((int)hearthArenaClass).ToString();
 				bodyArgs[match_prefix_indexed + AddSquareBrackets("result")] = result;
 				bodyArgs[match_prefix_indexed + AddSquareBrackets("coin")] = match.Coin ? "coin" : "no-coin";
 				matchNr++;
