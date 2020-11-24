@@ -8,7 +8,9 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
+      with:
+        path: Hearth-Arena-Uploader
     - uses: microsoft/setup-msbuild@v1
     - uses: nuget/setup-nuget@v1
     - name: checkout HDT
@@ -16,8 +18,13 @@ jobs:
       with:
         repository: 'HearthSim/Hearthstone-Deck-Tracker'
         path: Hearthstone-Deck-Tracker-Plugins
-    - run: nuget restore "$Env:GITHUB_WORKSPACE\Hearthstone-Deck-Tracker-Plugins\Hearthstone Deck Tracker.sln"
-    - run: msbuild "$Env:GITHUB_WORKSPACE\Hearthstone-Deck-Tracker-Plugins\Hearthstone Deck Tracker.sln"
-    - name: Build .NET
-      run: |
-        MSBuild.exe "Hearth Arena Uploader.sln"
+    - run: ./bootstrap.ps1
+      working-directory: Hearthstone-Deck-Tracker-Plugins
+    - run: nuget restore "Hearthstone Deck Tracker.sln"
+      working-directory: Hearthstone-Deck-Tracker-Plugins
+    - run: msbuild "Hearthstone Deck Tracker.sln"
+      working-directory: Hearthstone-Deck-Tracker-Plugins
+      
+    - name: Build Hearth Arena Uploader
+      run: MSBuild.exe "Hearth Arena Uploader.sln"
+      working-directory: Hearth-Arena-Uploader
