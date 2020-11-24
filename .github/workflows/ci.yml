@@ -22,9 +22,9 @@ jobs:
       working-directory: Hearthstone-Deck-TrackerPlugins
     - run: nuget restore "Hearthstone Deck Tracker.sln"
       working-directory: Hearthstone-Deck-TrackerPlugins
-    - run: msbuild "Hearthstone Deck Tracker.sln"
+    - run: msbuild "Hearthstone Deck Tracker.sln" /p:Configuration=Release /p:Platform=x86 -m
       working-directory: Hearthstone-Deck-TrackerPlugins
       
     - name: Build Hearth Arena Uploader
-      run: MSBuild.exe "Hearth Arena Uploader.sln"
+      run: MSBuild.exe "Hearth Arena Uploader.sln" /p:Configuration=Release /p:Platform=x86 -m
       working-directory: Hearth-Arena-Uploader
