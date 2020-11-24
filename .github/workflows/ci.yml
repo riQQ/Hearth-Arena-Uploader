@@ -4,12 +4,12 @@ on: [push]
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     steps:
     - name: checkout
       uses: actions/checkout@v1
+    - uses: microsoft/setup-msbuild@v1
     - name: Build .NET
       run: |
-        cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-        .\MSBuild.exe "$Env:GITHUB_WORKSPACE\Hearth Arena Uploader.sln"
+        MSBuild.exe "Hearth Arena Uploader.sln"
