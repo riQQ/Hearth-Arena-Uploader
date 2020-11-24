@@ -11,7 +11,13 @@ jobs:
       uses: actions/checkout@v1
     - uses: microsoft/setup-msbuild@v1
     - uses: nuget/setup-nuget@v1
-    - run: nuget restore "Hearth Arena Uploader.sln"
+    - name: checkout HDT
+      uses: actions/checkout@v2
+      with:
+        repository: 'HearthSim/Hearthstone-Deck-Tracker'
+        path: Hearthstone-Deck-Tracker-Plugins
+    - run: nuget restore "$Env:GITHUB_WORKSPACE\Hearthstone-Deck-Tracker-Plugins\Hearthstone Deck Tracker.sln"
+    - run: msbuild "$Env:GITHUB_WORKSPACE\Hearthstone-Deck-Tracker-Plugins\Hearthstone Deck Tracker.sln"
     - name: Build .NET
       run: |
         MSBuild.exe "Hearth Arena Uploader.sln"
