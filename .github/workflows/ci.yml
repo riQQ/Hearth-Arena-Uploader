@@ -17,13 +17,13 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: 'HearthSim/Hearthstone-Deck-Tracker'
-        path: Hearthstone-Deck-Tracker-Plugins
+        path: Hearthstone-Deck-TrackerPlugins
     - run: ./bootstrap.ps1
-      working-directory: Hearthstone-Deck-Tracker-Plugins
+      working-directory: Hearthstone-Deck-TrackerPlugins
     - run: nuget restore "Hearthstone Deck Tracker.sln"
-      working-directory: Hearthstone-Deck-Tracker-Plugins
+      working-directory: Hearthstone-Deck-TrackerPlugins
     - run: msbuild "Hearthstone Deck Tracker.sln"
-      working-directory: Hearthstone-Deck-Tracker-Plugins
+      working-directory: Hearthstone-Deck-TrackerPlugins
       
     - name: Build Hearth Arena Uploader
       run: MSBuild.exe "Hearth Arena Uploader.sln"
