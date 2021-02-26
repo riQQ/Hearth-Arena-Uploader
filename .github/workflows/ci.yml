@@ -4,12 +4,27 @@ on: [push]
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     steps:
     - name: checkout
-      uses: actions/checkout@v1
-    - name: Build .NET
-      run: |
-        cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-        .\MSBuild.exe "$Env:GITHUB_WORKSPACE\Hearth Arena Uploader.sln"
+      uses: actions/checkout@v2
+      with:
+        path: Hearth-Arena-Uploader
+    - uses: microsoft/setup-msbuild@v1
+    - uses: nuget/setup-nuget@v1
+    - name: checkout HDT
+      uses: actions/checkout@v2
+      with:
+        repository: 'HearthSim/Hearthstone-Deck-Tracker'
+        path: Hearthstone-Deck-TrackerPlugins
+    - run: ./bootstrap.ps1
+      working-directory: Hearthstone-Deck-TrackerPlugins
+    - run: nuget restore "Hearthstone Deck Tracker.sln"
+      working-directory: Hearthstone-Deck-TrackerPlugins
+    - run: msbuild "Hearthstone Deck Tracker.sln" /p:Configuration=Release /p:Platform=x86 -m
+      working-directory: Hearthstone-Deck-TrackerPlugins
+      
+    - name: Build Hearth Arena Uploader
+      run: MSBuild.exe "Hearth Arena Uploader.sln" /p:Configuration=Release /p:Platform=x86 -m
+      working-directory: Hearth-Arena-Uploader
