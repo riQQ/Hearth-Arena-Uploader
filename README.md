@@ -1,4 +1,7 @@
 # Hearth-Arena-Uploader
+> [!IMPORTANT]  
+> Archived as [Hearthstone Deck Tracker is retiring plugin support](https://help.hearthsim.net/en/articles/18470784-what-s-changing-about-plugins-in-hdt).
+
 Hearth-Arena-Uploader is a plugin for [Hearthstone Deck Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker) to upload
 your arena runs to [Hearth Arena](http://www.heartharena.com/).
 
